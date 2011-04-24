@@ -1,0 +1,45 @@
+<h1><%= t('new_registration')%></h1>
+
+<% if @registration.errors.any? %>
+  <div id="errorExplanation">
+    <h3><%= pluralize(@registration.errors.count, "error") %> <%= t('founded') %></h3>
+    <ul>
+    <% @registration.errors.full_messages.each do |msg| %>
+      <li><%= msg %></li>
+    <% end %>
+    </ul>
+  </div>
+  <% end %>
+<%= form_for :registration do |f| -%>
+
+<h2><%= t('your_information')%></h2>
+<p><%= f.label :name %>
+<%= f.text_field :name %></p>
+
+<p><%= f.label :email %>
+<%= f.text_field :email %></p>
+
+<p><%= f.label :twitter %>
+@<%= f.text_field :twitter %></p>
+
+<p><%= f.label :website %>
+<%= f.text_field :website %></p>
+
+<p><%= f.label :experience %>
+<%= f.select :experience, experience_options %></p>
+
+<p><%= f.label :phone %>
+<%= f.text_field :phone1, :class => :phone %> 
+<%= f.text_field :phone2, :class => :phone %></p>
+
+<h2><%= t('choices') %></h2>
+
+<% Course.all.each do |course| %>
+<h3><%= check_box_tag 'courses[]', course.id, choose_course(@registration, course.id), { :id => "chk_course_#{course.id}" } %> 
+  <%= content_tag :label, course.name, :for => "chk_course_#{course.id}" %></h3>
+<p><strong><%= t('course_date') %></strong>: <%= course.date %>
+  <%= raw("<br/> <strong>#{t('course_instructor')}</strong>: #{course.instructor.name} (#{course.instructor.company})") if course.instructor %>
+  <br/><strong><%= t('course_price') %></strong>: <%= number_to_currency(course.price) %>
+<% end %>
+<p><%= f.submit(t('save'))%></p>
+<% end %>
