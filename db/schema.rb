@@ -14,11 +14,9 @@ ActiveRecord::Schema.define(:version => 20110422214407) do
 
   create_table "courses", :force => true do |t|
     t.integer  "instructor_id"
-    t.string   "name",                             :null => false
+    t.string   "name",          :null => false
     t.string   "date"
-    t.string   "description"
-    t.float    "price",                            :null => false
-    t.boolean  "check_out",     :default => false, :null => false
+    t.float    "price",         :null => false
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -33,21 +31,21 @@ ActiveRecord::Schema.define(:version => 20110422214407) do
   end
 
   create_table "registration_courses", :force => true do |t|
-    t.integer  "registration_id",                    :null => false
-    t.integer  "course_id",                          :null => false
-    t.boolean  "payed",           :default => false, :null => false
+    t.integer  "registration_id", :null => false
+    t.integer  "course_id",       :null => false
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
   create_table "registrations", :force => true do |t|
-    t.string   "email",      :null => false
-    t.string   "name",       :null => false
+    t.string   "email",                         :null => false
+    t.string   "name",                          :null => false
     t.string   "twitter"
     t.string   "website"
     t.integer  "experience"
-    t.string   "phone1",     :null => false
+    t.string   "phone1",                        :null => false
     t.string   "phone2"
+    t.boolean  "payed",      :default => false, :null => false
     t.datetime "created_at"
     t.datetime "updated_at"
   end

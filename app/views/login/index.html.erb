@@ -1,0 +1,14 @@
+<%= content_tag :div, flash[:error] %>
+<%= form_for :login do -%>
+<p>
+  <label>Login: </label>
+  <%= text_field_tag :username %>
+</p>
+<p>
+  <label>Senha: </label>
+  <%= password_field_tag :password %>
+</p>
+<p class="buttons">
+  <input type="submit" value="Entrar" />
+</p>
+<% end %>

@@ -4,9 +4,7 @@ class CreateCourses < ActiveRecord::Migration
       t.references  :instructor
       t.string      :name, :null => false
       t.string      :date
-      t.string      :description
       t.float       :price, :null => false
-      t.boolean     :check_out, :null => false, :default => false
       t.timestamps
     end
   end

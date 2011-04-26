@@ -1,10 +1,100 @@
-.field_with_errors {
-  display: inline;
-}
-.field_with_errors input {
-  border: 1px solid red;
+* {
+  font-family: Arial, sans-serif;
+  font-size: 12px;
+  margin: 0;
+  padding: 0;
 }
 
+body {
+  margin: 20px;
+}
+
+p {
+  margin: 10px 0px;
+}
+
+h1 {
+  margin: 24px 0px 12px 0px;
+  font-size: 24px;
+}
+
+h2 {
+  margin: 24px 0px 12px 0px;
+  font-size: 18px;
+}
+
+h3 {
+  margin: 12px 0px 6px 0px;
+}
+
+h3 label {
+  font-size: 16px;
+}
+
+form p label {
+  display: block;
+  margin: 12px 0px 6px 0px;
+}
+
+.text, .text {
+  width: 300px;
+}
+
+form p input.phone {
+  width: 100px;
+}
+
+#errorExplanation {
+  background-color: #FFD39B;
+  padding: 5px 15px;
+}
+
+#errorExplanation ul {
+  margin: 20px;
+}
+
+.field_with_errors {
+    margin: 6px 0px 0px 0px;
+}
 .field_with_errors label {
   color: red;
+}
+
+.buttons {
+  border-top: 1px solid #888;
+  padding: 10px 5px;
+  margin: 24px 0px 12px 0px;
+}
+
+.buttons input {
+  font-size: 14px;
+  font-weight: bold;
+}
+
+.table {
+    border: 1px solid #CCC;
+}
+.table td, .table th {
+    padding: 15px 10px;
+    border-right: 1px solid #EEE;
+    border-bottom: 1px solid #EEE;
+}
+.table th {
+    border-bottom: 1px solid #CCC;
+}
+
+.table th {
+    -webkit-border-top-left-radius: 6px;
+    -webkit-border-top-right-radius: 6px;
+    -moz-border-radius-topleft: 6px;
+    -moz-border-radius-topright: 6px;
+    border-top-left-radius: 6px;
+    border-top-right-radius: 6px;
+}
+
+.table th {
+    background: #FFFFFF; /* old browsers */
+    background: -moz-linear-gradient(top, #FFFFFF 0%, #E1E1E1 100%); /* firefox */
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#FFFFFF), color-stop(100%,#E1E1E1)); /* webkit */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#FFFFFF', endColorstr='#E1E1E1',GradientType=0 ); /* ie */
 }

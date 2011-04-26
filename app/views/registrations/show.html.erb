@@ -1,3 +1,5 @@
 <h1><%= t('registration_successful')%></h1>
 
 <p><%= t('registration_instructions')%></p>
+
+<%= pagseguro_form @order, :submit => "Efetuar pagamento!" %>
