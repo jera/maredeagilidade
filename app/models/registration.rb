@@ -3,12 +3,13 @@ class Registration < ActiveRecord::Base
   validates_presence_of :name, :phone1, :courses
   validates :email, :presence => true, :email => true
 
-  after_create :check_duplication
+  after_create :check_duplication, 'RegistrationMailer.send_new(self).deliver'
 
   def pay
     self.payed = true
     self.cancelled = false
     save!
+    RegistrationMailer.send_pay(self).deliver
     check_duplication
   end
   
@@ -27,6 +28,13 @@ class Registration < ActiveRecord::Base
     save!
   end
   
+  def free_courses?
+    self.courses.each do |registration_course|
+      return false if registration_course.course.free?
+    end
+    true
+  end
+
   private
     def check_duplication
       duplications = Registration.where(:email => self.email, :cancelled => false, :payed => false).order(:created_at)

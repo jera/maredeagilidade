@@ -1,0 +1,29 @@
+## Nova Inscrição ##
+
+Olá <%= @registration.name %>,
+
+Seja bem vindo ao Maré de Agilidade - Edição Pantanal. Sua inscrição foi feita, mas ainda depende da confirmação do pagamento para ser efetivada. Confira abaixo o(s) curso(s) e palestras que você escolheu:
+
+<% @registration.courses.each do |registration_course| -%>
+  <%= registration_course.course.name %>
+  Data: <%= registration_course.course.date %>
+<% if registration_course.course.instructor -%>  Instrutor: <%= registration_course.course.instructor.name %> - <%= registration_course.course.instructor.company %>
+<% end -%>  Valor: <%= number_to_currency(registration_course.course.price)%>
+
+<% end -%>
+O PagSeguro irá confirmar o pagamento em até 48 horas e nós te notificaremos por e-mail. Caso isso não aconteça, acesse sua conta do PagSeguro em http://pagseguro.uol.com.br/ e verique o motivo da não aprovação ou altere a forma de pagamento.
+
+Se você quiser alterar os cursos da sua inscrição, basta entrar no site e fazer uma nova inscrição que a anterior será automaticamente cancelada.
+<% if @registration.free_courses? -%>
+
+Como você fez inscrição em um curso, você tem passe livre para o evento de palestras do dia 21 de Maio (sábado) das 8:00 as 18:00. Não deixe de comparer!
+<% end -%>
+
+Se tiver dúvidas ou problemas não hesite em nos contatar através do e-mail eventos@jera.com.br.
+
+Esperamos que você tenha um ótimo evento!
+
+--
+Equipe de Organização do Maré de Agilidade
+eventos@jera.com.br
+http://maredeagilidade.jera.com.br

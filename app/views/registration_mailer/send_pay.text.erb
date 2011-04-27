@@ -1,0 +1,26 @@
+## Pagamento Confirmado ##
+
+Olá <%= @registration.name %>,
+
+Recebemos o pagamento da sua inscrição. Você está inscrito no(s) curso(s) abaixo:
+
+<% @registration.courses.each do |registration_course| -%>
+  <%= registration_course.course.name %>
+  Data: <%= registration_course.course.date %>
+<% if registration_course.course.instructor -%>  Instrutor: <%= registration_course.course.instructor.name %> - <%= registration_course.course.instructor.company %>
+<% end -%>  Valor: <%= number_to_currency(registration_course.course.price)%>
+
+<% end -%>
+<% if @registration.free_courses? -%>
+
+Como você fez inscrição em um curso, você tem passe livre para o evento de palestras do dia 21 de Maio (sábado) das 8:00 as 18:00. Não deixe de comparer!
+<% end -%>
+
+Se tiver dúvidas ou problemas não hesite em nos contatar através do e-mail eventos@jera.com.br.
+
+Nos vemos no evento!
+
+--
+Equipe de Organização do Maré de Agilidade
+eventos@jera.com.br
+http://maredeagilidade.jera.com.br

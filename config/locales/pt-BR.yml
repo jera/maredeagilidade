@@ -29,6 +29,12 @@
     website: Website
     twitter: Twitter
     phone: Telefones
+    
+  registration_mailer:
+    send_new:
+      subject: Nova Inscrição - Maré de Agilidade - Edição Pantanal
+    send_pay:
+      subject: Pagamento Confirmado - Maré de Agilidade - Edição Pantanal
 
   # formatos de data e hora
   date:
