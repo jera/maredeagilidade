@@ -44,6 +44,11 @@ form p input.phone {
   width: 100px;
 }
 
+form p input, form p select {
+  padding: 5px;
+  font-size: 13px;
+}
+
 #errorExplanation {
   background-color: #FFD39B;
   padding: 5px 15px;
