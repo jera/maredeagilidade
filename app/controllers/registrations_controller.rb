@@ -42,7 +42,7 @@ class RegistrationsController < ApplicationController
       @order = PagSeguro::Order.new(@registration.id)
       @registration.courses.each do |registration_course|
         course = registration_course.course
-        @order.add :id => course.id, :price => course.price * 1.0708, :description => course.name
+        @order.add :id => course.id, :price => course.pagseguro_price, :description => course.name
       end
       #@order.shipping_type = "FR"
       @order.billing = {

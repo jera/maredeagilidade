@@ -20,6 +20,13 @@
 <p><%= f.label :email %>
 <%= f.text_field :email, :class => :text %></p>
 
+<p><%= f.label :phone1 %>
+<%= f.text_field :phone1, :class => :phone %> 
+<%= f.text_field :phone2, :class => :phone %></p>
+
+<p><%= f.label :tshirt_size %>
+<%= f.select :tshirt_size, tshirt_size_options, {}, :class => :text %></p>
+
 <p><%= f.label :twitter %>
 @<%= f.text_field :twitter %></p>
 
@@ -29,11 +36,11 @@
 <p><%= f.label :experience %>
 <%= f.select :experience, experience_options, {}, :class => :text %></p>
 
-<p><%= f.label :phone1 %>
-<%= f.text_field :phone1, :class => :phone %> 
-<%= f.text_field :phone2, :class => :phone %></p>
-
 <h2><%= t('choices') %></h2>
+
+<p class="info">
+  O pagamento será feito via PagSeguro. Os valores dos cursos são para pagamento à vista por meio de transferência bancária ou boleto. Você pode parcelar em até 6 vezes no cartão de crédito com acréscimo de 7,08% equivalente às taxas do PagSeguro. Fazendo a inscrição para um curso, o dia de palestras é gratuito.
+</p>
 
 <% Course.all.each do |course| %>
 <h3><%= check_box_tag 'courses[]', course.id, choose_course(@registration, course.id), { :id => "chk_course_#{course.id}", :free => course.instructor.nil?, :price => course.price } %> 
@@ -43,7 +50,7 @@
   <br/><strong><%= t('course_price') %></strong>: <%= number_to_currency(course.price) %>
 <% end %>
 <h2>Valor Total: <span id="total"><%= number_to_currency(@registration.total) %></span></h2>
-<p class="buttons"><%= f.submit(t('save'))%></p>
+<div class="buttons"><%= f.submit(t('save'))%></div>
 <% end %>
 <script type="text/javascript" charset="utf-8">
   function check_free() {

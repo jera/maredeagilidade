@@ -38,15 +38,16 @@ ActiveRecord::Schema.define(:version => 20110422214407) do
   end
 
   create_table "registrations", :force => true do |t|
-    t.string   "email",                         :null => false
-    t.string   "name",                          :null => false
+    t.string   "email",                          :null => false
+    t.string   "name",                           :null => false
     t.string   "twitter"
     t.string   "website"
     t.integer  "experience"
-    t.string   "phone1",                        :null => false
+    t.string   "phone1",                         :null => false
     t.string   "phone2"
-    t.boolean  "payed",      :default => false, :null => false
-    t.boolean  "cancelled",  :default => false, :null => false
+    t.boolean  "payed",       :default => false, :null => false
+    t.boolean  "cancelled",   :default => false, :null => false
+    t.integer  "tshirt_size",                    :null => false
     t.datetime "created_at"
     t.datetime "updated_at"
   end

@@ -5,4 +5,8 @@ class Course < ActiveRecord::Base
   def free?
     self.instructor.nil?
   end
+  
+  def pagseguro_price
+    (self.price >= 300.0) ? (self.price * 1.0708) : self.price
+  end
 end

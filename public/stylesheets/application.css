@@ -40,11 +40,11 @@ form p label {
   width: 300px;
 }
 
-form p input.phone {
+form p input.phone, .field_with_errors .phone, form .phone {
   width: 100px;
 }
 
-form p input, form p select {
+form p input, form p select, .field_with_errors input, .field_with_errors select, form .phone {
   padding: 5px;
   font-size: 13px;
   background-color: #F0F0F0;

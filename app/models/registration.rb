@@ -1,6 +1,6 @@
 class Registration < ActiveRecord::Base
   has_many :courses, :class_name => 'RegistrationCourse', :foreign_key => :registration_id
-  validates_presence_of :name, :phone1, :courses
+  validates_presence_of :name, :phone1, :courses, :tshirt_size
   validates :email, :presence => true, :email => true
 
   after_create :check_duplication, 'RegistrationMailer.send_new(self).deliver'

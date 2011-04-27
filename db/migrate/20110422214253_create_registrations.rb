@@ -10,6 +10,7 @@ class CreateRegistrations < ActiveRecord::Migration
       t.string    :phone2
       t.boolean   :payed, :null => false, :default => false
       t.boolean   :cancelled, :null => false, :default => false
+      t.integer   :tshirt_size, :null => false
       t.timestamps
     end
   end

@@ -16,6 +16,18 @@ module RegistrationHelper
       [t('experience_options.expert'), 3]
     ]
   end
+  
+  def tshirt_size_options
+   [ 
+      [t('select'), ''], 
+      ['PP', 1],
+      ['P' , 2], 
+      ['M' , 3], 
+      ['G' , 4],
+      ['GG', 5],
+      ['XG', 6]
+    ]
+  end
 
   def choose_course(registration, course_id)
     registration.courses.each do |course|
