@@ -46,6 +46,7 @@ ActiveRecord::Schema.define(:version => 20110422214407) do
     t.string   "phone1",                        :null => false
     t.string   "phone2"
     t.boolean  "payed",      :default => false, :null => false
+    t.boolean  "cancelled",  :default => false, :null => false
     t.datetime "created_at"
     t.datetime "updated_at"
   end

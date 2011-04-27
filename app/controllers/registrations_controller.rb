@@ -10,7 +10,7 @@ class RegistrationsController < ApplicationController
   def index
     instructor = (session[:instructor] > 0) ? session[:instructor] : nil
     if instructor
-      @registrations = Registration.joins(:courses => [:course]).where('courses.instructor_id' => instructor).order('updated_at DESC').group(:registration_id)
+      @registrations = Registration.joins(:courses => [:course]).where('courses.instructor_id' => instructor, :cancelled => false).order('updated_at DESC').group(:registration_id)
     else
       @registrations = Registration.joins(:courses => [:course]).order('updated_at DESC').group(:registration_id)
     end
@@ -26,19 +26,23 @@ class RegistrationsController < ApplicationController
       @registration.courses.build(:course_id => course_id)
     end if params[:courses]
     if @registration.save
-      redirect_to registration_path(@registration)
+      redirect_to registration_path(@registration) + '?token=' + get_token(@registration)
     else
-      render :index
+      render :new
     end
   end
   
   def show
     @registration = Registration.find(params[:id])
+    if params[:token] != get_token(@registration) 
+      render :file => "public/422.html", :status => :unauthorized
+      return
+    end
     unless @registration.payed
       @order = PagSeguro::Order.new(@registration.id)
       @registration.courses.each do |registration_course|
         course = registration_course.course
-        @order.add :id => course.id, :price => course.price, :description => course.name
+        @order.add :id => course.id, :price => course.price * 1.0708, :description => course.name
       end
       @order.shipping_type = "FR"
       @order.billing = {
@@ -54,10 +58,10 @@ class RegistrationsController < ApplicationController
   def pay 
     if request.post?
       pagseguro_notification do |notification|
-        logger.info notification.inspect
-        if notification.status == 'approved'
-          @registration = Registration.find(notification.referencia)
-          logger.error('registration not found '+ notification.referencia) unless @registration 
+        logger.info "status=#{notification.status}, id=#{notification.order_id}, payment_method=#{notification.payment_method}, processed_at=#{notification.processed_at}, transaction_id=#{notification.transaction_id}, notes=#{notification.notes}"
+        if notification.status == :approved || notification.status == :completed
+          @registration = Registration.find(notification.order_id)
+          logger.error('registration not found '+ notification.order_id) unless @registration 
           @registration.pay
         end
       end

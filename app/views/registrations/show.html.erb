@@ -1,5 +1,8 @@
-<h1><%= t('registration_successful')%></h1>
+<h1>Inscrição</h1>
 
-<p><%= t('registration_instructions')%></p>
+<p>Clique no botão abaixo para fazer o pagamento da sua inscrição com valor total de 
+  <%= number_to_currency(@registration.total) %></p>
 
-<%= pagseguro_form @order, :submit => "Efetuar pagamento!" %>
+<%= pagseguro_form @order do %>
+  <%= image_tag('pagar.gif') %>
+  <% end %>

@@ -29,18 +29,38 @@
 <p><%= f.label :experience %>
 <%= f.select :experience, experience_options, {}, :class => :text %></p>
 
-<p><%= f.label :phone %>
+<p><%= f.label :phone1 %>
 <%= f.text_field :phone1, :class => :phone %> 
 <%= f.text_field :phone2, :class => :phone %></p>
 
 <h2><%= t('choices') %></h2>
 
 <% Course.all.each do |course| %>
-<h3><%= check_box_tag 'courses[]', course.id, choose_course(@registration, course.id), { :id => "chk_course_#{course.id}" } %> 
+<h3><%= check_box_tag 'courses[]', course.id, choose_course(@registration, course.id), { :id => "chk_course_#{course.id}", :free => course.instructor.nil?, :price => course.price } %> 
   <%= content_tag :label, course.name, :for => "chk_course_#{course.id}" %></h3>
 <p><strong><%= t('course_date') %></strong>: <%= course.date %>
   <%= raw("<br/> <strong>#{t('course_instructor')}</strong>: #{course.instructor.name} (#{course.instructor.company})") if course.instructor %>
   <br/><strong><%= t('course_price') %></strong>: <%= number_to_currency(course.price) %>
 <% end %>
+<h2>Valor Total: <span id="total"><%= number_to_currency(@registration.total) %></span></h2>
 <p class="buttons"><%= f.submit(t('save'))%></p>
 <% end %>
+<script type="text/javascript" charset="utf-8">
+  function check_free() {
+    $('form :checkbox[free=true]').attr('disabled', $("input:checked[free=false]").length > 0)
+  }
+  function update_price() {
+    var total = 0.0
+    $("input:checked").each(function() {
+      total += parseFloat($(this).attr('price'))
+    })
+    $('#total').html(number_to_currency(total.toFixed(2), { unit: "R$ ", separator: ",", delimiter: "." }))
+  }
+  $(document).ready(function () {
+    check_free()
+    $('form :checkbox').click(function() {
+      check_free()
+      update_price()
+    })
+  });
+</script>

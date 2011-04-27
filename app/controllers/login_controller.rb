@@ -3,8 +3,7 @@ class LoginController < ApplicationController
   def index
     if request.post?
       if params[:username] == 'admin'
-        @config = YAML::load(File.open("#{RAILS_ROOT}/config/database.yml"))
-        if @config['admin_password'] == params[:password]
+        if admin_password == params[:password]
           session[:instructor] = -1
           redirect_to root_path
           return
@@ -25,5 +24,11 @@ class LoginController < ApplicationController
     session[:instructor] = nil
     redirect_to login_path
   end
+  
+  private 
+  
+    def admin_password
+      CONFIG['admin_password']
+    end
 
 end

@@ -9,8 +9,7 @@ Factory.define :course do |t|
   t.association     :instructor
   t.sequence(:name) {|n| "course#{n}"}
   t.date            '20 a 22 de maio'
-  t.price           srand(399)
-  t.check_out       true
+  t.price           300.00
 end
 
 Factory.define :registration do |t|

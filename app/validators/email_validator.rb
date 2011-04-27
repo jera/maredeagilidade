@@ -17,6 +17,6 @@ class EmailValidator < ActiveModel::EachValidator
     rescue Exception => e   
       r = false
     end
-    record.errors[attribute] << (options[:message] || "is invalid") unless r
+    record.errors[attribute] << (options[:message] || I18n.t('activerecord.errors.messages.invalid')) unless r
   end
 end

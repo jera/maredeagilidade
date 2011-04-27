@@ -18,7 +18,7 @@ h1 {
   font-size: 24px;
 }
 
-h2 {
+h2, h2 span {
   margin: 24px 0px 12px 0px;
   font-size: 18px;
 }
@@ -97,4 +97,9 @@ form p input.phone {
     background: -moz-linear-gradient(top, #FFFFFF 0%, #E1E1E1 100%); /* firefox */
     background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#FFFFFF), color-stop(100%,#E1E1E1)); /* webkit */
     filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#FFFFFF', endColorstr='#E1E1E1',GradientType=0 ); /* ie */
+}
+
+.table tr.cancelled {
+  background-color: #F0F0F0;
+  color: #999;
 }
