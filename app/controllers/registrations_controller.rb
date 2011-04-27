@@ -44,11 +44,20 @@ class RegistrationsController < ApplicationController
         course = registration_course.course
         @order.add :id => course.id, :price => course.price * 1.0708, :description => course.name
       end
-      @order.shipping_type = "FR"
+      #@order.shipping_type = "FR"
       @order.billing = {
-        :name         => @registration.name,
-        :email        => @registration.email,
-        :phone_number => @registration.phone1
+        :name                  => @registration.name,
+        :email                 => @registration.email,
+        :phone_area_code       => "67",
+        :phone_number          => @registration.phone1,
+        :address_zipcode       => "79002401",
+        :address_street        => "Rua Jose Antonio Pereira",
+        :address_number        => 1397,
+        :address_complement    => "sala 1",
+        :address_neighbourhood => "Centro",
+        :address_city          => "Campo Grande",
+        :address_state         => "MS",
+        :address_country       => "Brasil"
       }
     end
   end
