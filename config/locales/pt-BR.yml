@@ -16,8 +16,8 @@
   save: Concluir
   founded: encontrados
   error: erro
-  yes: Sim
-  no: Não
+  sim: Sim
+  nao: Não
   exit: Sair
   instructor_registrations: Inscrições
   registrations:
@@ -29,6 +29,8 @@
     website: Website
     twitter: Twitter
     phone: Telefones
+    price: Valor
+    payed: Pago?
     
   registration_mailer:
     send_new:
@@ -56,7 +58,7 @@
   time:
     formats:
       default: "%A, %d de %B de %Y, %H:%M h"
-      short: "%d/%m, %H:%M h"
+      short: "%d de   %B, %H:%M h"
       long: "%A, %d de %B de %Y, %H:%M h"
     am: ''
     pm: ''

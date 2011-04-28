@@ -8,18 +8,20 @@
     <th><%= t('registrations.courses')%></th>
     <th><%= t('registrations.experience')%></th>
     <th><%= t('registrations.website')%> / <%= t('registrations.twitter')%></th>
+    <th><%= t('registrations.price')%></th>
     <th><%= t('registrations.payed')%></th>
   </tr>
 <% @registrations.each do |registration| -%>
   <tr<%= raw(' class="cancelled"') if registration.cancelled%>>
     <td><%= registration.id %></td>
-    <td><%= registration.updated_at.to_s(:short) %></td>
+    <td><%= l registration.updated_at, :format => :short %></td>
     <td><%= registration.name %> &lt;<%= registration.email %>&gt;</td>
     <td nowrap="nowap"><%= registration.phone1 %><%= raw("<br/>#{registration.phone2}") if registration.phone2 %></td>
     <td><%= courses_s(registration.courses) %>
     <td><%= experience_s(registration.experience) %></td>
     <td><%= registration.website %> <br/> <%= "@#{registration.twitter}" unless registration.twitter.blank? %></td>
-    <td><%= registration.payed ? t('yes') : t('no') %></td>
+    <td><%= number_to_currency(registration.total) %></td>
+    <td><%= registration.payed ? t('sim') : t('nao') %></td>
   </tr>
 <% end -%>
 </table>
