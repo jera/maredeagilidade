@@ -39,7 +39,7 @@
 <h2><%= t('choices') %></h2>
 
 <p class="info">
-  O pagamento será feito via PagSeguro. Os valores dos cursos são para pagamento à vista por meio de transferência bancária ou boleto. Você pode parcelar em até 6 vezes no cartão de crédito com acréscimo de 7,08% equivalente às taxas do PagSeguro. Fazendo a inscrição para um curso, o dia de palestras é gratuito.
+  O pagamento será feito via PagSeguro. Os valores dos cursos são para pagamento à vista por meio de transferência bancária ou boleto. Você pode parcelar em até 6 vezes no cartão de crédito com acréscimo de 7,08% equivalente às taxas do PagSeguro. Fazendo a inscrição para um curso, o dia de palestras é gratuito. Você também ganha uma camiseta do evento inscrevendo-se em qualquer curso ou no dia de palestra!
 </p>
 
 <% Course.all.each do |course| %>
@@ -59,7 +59,8 @@
   function update_price() {
     var total = 0.0
     $("input:checked").each(function() {
-      total += parseFloat($(this).attr('price'))
+      if (!$(this).attr('disabled'))
+        total += parseFloat($(this).attr('price'))
     })
     $('#total').html(number_to_currency(total.toFixed(2), { unit: "R$ ", separator: ",", delimiter: "." }))
   }

@@ -20,12 +20,12 @@ module RegistrationHelper
   def tshirt_size_options
    [ 
       [t('select'), ''], 
-      ['PP', 1],
-      ['P' , 2], 
-      ['M' , 3], 
-      ['G' , 4],
-      ['GG', 5],
-      ['XG', 6]
+      ['PP'],
+      ['P' ], 
+      ['M' ], 
+      ['G' ],
+      ['GG'],
+      ['XG']
     ]
   end
 
