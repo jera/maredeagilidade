@@ -14,7 +14,7 @@
 <% @registrations.each do |registration| -%>
   <tr<%= raw(' class="cancelled"') if registration.cancelled%>>
     <td><%= registration.id %></td>
-    <td><%= l registration.updated_at, :format => :short %></td>
+    <td><%= l registration.created_at, :format => :short %></td>
     <td><%= registration.name %> &lt;<%= registration.email %>&gt;</td>
     <td nowrap="nowap"><%= registration.phone1 %><%= raw("<br/>#{registration.phone2}") unless registration.phone2.blank? %>
       / <%= registration.tshirt_size%></td>
