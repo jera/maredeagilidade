@@ -8,6 +8,6 @@ test:
   <<: *development
 
 production:
-  authenticity_token: 2948EE9A36FB404B8033439D643EDE40
+  authenticity_token: A582B0DAF0D14D0FBB98EF44F8311FDC
   email: eventos@jera.com.br
-  return_to: "http://maredeagilidade.jera.com.br/inscricao/registrations/pay"
+  return_to: "http://inscricao.maredeagilidade.jera.com.br/registrations/pay"
