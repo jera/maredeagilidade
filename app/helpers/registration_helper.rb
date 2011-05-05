@@ -8,6 +8,10 @@ module RegistrationHelper
     experiences[value][0]
   end
   
+  def courses_options
+    [[t('all_courses'), '']] + Course.all.collect { |c| [ c.name, c.id ] }
+  end
+  
   def experiences
     [ 
       [t('select'), 0], 
@@ -26,6 +30,13 @@ module RegistrationHelper
       ['G' ],
       ['GG'],
       ['XG']
+    ]
+  end
+  
+  def payed_options
+    [
+      [t('sim'), true],
+      [t('nao'), false]
     ]
   end
 

@@ -3,23 +3,44 @@
 "pt-BR":
 
   new_registration: "Inscreva-se"
+  edit_registration: Editar Inscrição
   your_information: Seus dados
   select: ''
+  or: ou
+  cancel: Cancelar
+  are-you-sure: Tem certeza?
+  filter: Filtrar
+  show_cancelled: Cancelados
+  show_payed: Pagos
+  show_not_payed: Pendentes
+  found: inscrições encontradas
+  text: Buscar
+  all_courses: Todos os cursos
+  courses: Cursos
   experience_options:
     newbie: Iniciante
     praticant: Praticante
     expert: Especialista
   choices: Cursos e Palestras
+  company_registration: Somente para inscrição como empresa (para NF)
   course_date: Data
   course_instructor: Instructor
   course_price: Valor
   save: Concluir
   founded: encontrados
+  login_error: Usuário ou senha inválidos
+  edit: Editar
   error: erro
+  saved: Gravado com sucesso!
   sim: Sim
   nao: Não
   exit: Sair
   instructor_registrations: Inscrições
+  order_to: Emitir Nota Fiscal para
+  person: Pessoa Física
+  organization: Empresa
+  person_document_number: CPF
+  organization_document_number: CNPJ
   registrations:
     code: Cód.
     date: Data
@@ -31,6 +52,7 @@
     phone: Telefones/Camiseta
     price: Valor
     payed: Pago?
+    cpf_cnpj: CPF ou CNPJ
     
   registration_mailer:
     send_new:
@@ -254,4 +276,6 @@
           phone1: Telefone de contato
           courses: Cursos e Palestras
           tshirt_size: Tamanho da Camiseta
+          company_name: Razão Social
+          document_number: CPF ou CNPJ
     

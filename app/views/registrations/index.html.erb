@@ -1,29 +1,104 @@
+<%= content_tag :div, flash[:success], :class => 'success' if flash[:success]%>
 <h1><%= t('instructor_registrations')%></h1>
-<table class="table" width="100%">
+<div id="filter">
+  <%= form_for :filter, :html => { :method => :get } do %>
+    <p><label class="clear" for="cancelled"><%= t('text') %></label>
+    <%= text_field_tag :text, params[:text], :class => :text %></p>
+    <% if admin? %><p><label class="clear" for="course"><%=t('courses')%></label> <%= select_tag :course, options_for_select(courses_options, params[:course]), :class => :text%></p><% end %>
+    <p>
+      <%= check_box_tag :show_payed, true, !params[:show_payed].nil? || !params[:commit], :value => true %> <label class="clear" for="show_payed"><%= t('show_payed') %></label>
+      <%= check_box_tag :show_not_payed, true, !params[:show_not_payed].nil? || !params[:commit], :value => true %> <label class="clear" for="show_not_payed"><%= t('show_not_payed') %></label>
+      <% if admin? %><%= check_box_tag :cancelled, true, !params[:cancelled].nil? %> <label class="clear" for="cancelled"><%= t('show_cancelled') %></label><% end %>
+    </p>
+    <p><%= submit_tag t('filter')%></p>
+  <% end %>
+</div>
+<p align="center"><%= @registrations.count.size %> <%= t('found')%></p>
+<table class="table">
   <tr>
     <th><%= t('registrations.code')%></th>
     <th><%= t('registrations.date')%></th>
     <th><%= t('registrations.name')%></th>
+    <th><%= t('registrations.cpf_cnpj')%></th>
     <th><%= t('registrations.phone')%></th>
     <th><%= t('registrations.courses')%></th>
     <th><%= t('registrations.experience')%></th>
     <th><%= t('registrations.website')%> / <%= t('registrations.twitter')%></th>
     <th><%= t('registrations.price')%></th>
     <th><%= t('registrations.payed')%></th>
+    <%= content_tag :th if admin?%>
   </tr>
 <% @registrations.each do |registration| -%>
   <tr<%= raw(' class="cancelled"') if registration.cancelled%>>
     <td><%= registration.id %></td>
-    <td><%= l registration.created_at, :format => :short %></td>
-    <td><%= registration.name %> &lt;<%= registration.email %>&gt;</td>
+    <td nowrap="nowap"><%= l registration.created_at, :format => :short %></td>
+    <td><%= registration.name %><br/> &lt;<%= registration.email %>&gt;
+      </td>
+    <td><%= content_tag :em, registration.company_name if registration.person_type == 'J' %> <%= registration.document_number %></td>
     <td nowrap="nowap"><%= registration.phone1 %><%= raw("<br/>#{registration.phone2}") unless registration.phone2.blank? %>
       / <%= registration.tshirt_size%></td>
     <td><%= courses_s(registration.courses) %>
     <td><%= experience_s(registration.experience) %></td>
-    <td><%= registration.website %> <br/> <%= "@#{registration.twitter}" unless registration.twitter.blank? %></td>
+    <td><%= link_to registration.website.truncate(20), registration.website unless registration.website.blank? %>
+      <%= raw("<br/> @<a href=\"http://twitter.com/#{registration.twitter}\" target=\"blank\">#{registration.twitter}</a>") unless registration.twitter.blank? %></td>
     <td><%= number_to_currency(registration.total) %></td>
-    <td><%= registration.payed ? t('sim') : t('nao') %></td>
+    <td><%= registration.payed ? t('sim') : t('nao') unless admin? %>
+      <% if admin? %>
+        <%= form_for registration do |f| %>
+        <% f.select :payed, payed_options %>
+        <% end %>
+      <% end %>
+      </td>
+    <%= content_tag :td do %>
+      <%= form_for registration, nil, :html => { :method => :delete } do |f| %>
+      <%= link_to(t('edit'), edit_registration_path(registration)) %>
+      <%= link_to(t('cancel'), registration, :class => 'cancel', :style => (registration.payed || registration.cancelled) ? 'display:none' : '') %>
+      <% end %>
+    <% end if admin? %>
   </tr>
 <% end -%>
 </table>
 <p><%= link_to t('exit'), logout_path%></p>
+<script type="text/javascript" charset="utf-8">
+  $(document).ready(function () {
+    $('.edit_registration select').change(function() {
+      var form = $(this).parent()
+      $.post(form.attr('action'), form.serialize(), function(data, status) {
+        if (data != 'ok')
+          alert('error: ' + data)
+        else {
+          var row = form.closest("tr")
+          var cancel = form.parent().parent().find('.cancel')
+          row.animate({ opacity: 0.25 }, 200).animate({ opacity: 1 }, 200)
+          if (form.find('select').val() == 'true') {
+            row.removeClass('cancelled')
+            cancel.hide()
+          } else {
+            cancel.show()
+          }
+        }
+      }, 'json')
+    })
+    
+    $('.cancel').click(function() {
+      if(confirm('<%= t('are-you-sure') %>')) {
+        var form = $(this).parent()
+        $.post(form.attr('action'), form.serialize(), function(data) {
+          if (data != 'ok') {
+            alert('error: ' + data)
+          } else {
+            var row = form.closest("tr")
+            var cancel = form.parent().parent().find('.cancel')
+            row.animate({ opacity: 0.25 }, 200).animate({ opacity: 1 }, 200)
+            row.addClass('cancelled');
+            cancel.hide()
+          }
+        }, "json");
+        return false;
+      } else {
+          //they clicked no.
+          return false;
+      }
+    })
+  });
+</script>

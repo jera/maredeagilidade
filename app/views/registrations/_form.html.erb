@@ -1,0 +1,105 @@
+<%= form_for @registration do |f| -%>
+<% if @registration.errors.any? %>
+  <div id="errorExplanation">
+    <h3><%= pluralize(@registration.errors.count, t('error')) %> <%= t('founded') %></h3>
+    <ul>
+    <% @registration.errors.full_messages.each do |msg| %>
+      <li><%= msg %></li>
+    <% end %>
+    </ul>
+  </div>
+  <% end %>
+
+<h2><%= t('your_information')%></h2>
+<p><%= f.label :name %>
+<%= f.text_field :name, :class => :text %></p>
+
+<p><%= f.label :email %>
+<%= f.text_field :email, :class => :text %></p>
+
+<p><%= f.label :phone1 %>
+<%= f.text_field :phone1, :class => :phone %> 
+<%= f.text_field :phone2, :class => :phone %></p>
+
+<p><%= f.label :tshirt_size %>
+<%= f.select :tshirt_size, tshirt_size_options, {}, :class => :text %></p>
+
+<p><%= f.label :twitter %>
+@<%= f.text_field :twitter %></p>
+
+<p><%= f.label :website %>
+<%= f.text_field :website, :class => :text %></p>
+
+<p><%= f.label :experience %>
+<%= f.select :experience, experience_options, {}, :class => :text %></p>
+
+<p><label><%= t('order_to') %> </label>
+  <%= f.radio_button :person_type, 'F', :onclick => 'check_person_type()' %> <%= f.label t('person'), :for => :registration_person_type_f, :class => :clear %>
+  <%= f.radio_button :person_type, 'J', :onclick => 'check_person_type()' %> <%= f.label t('organization'), :for => :registration_person_type_j, :class => :clear %>
+
+<div id="company_name_div" <%= raw('style="display:none"') if @registration.person_type == "F" %>>
+<p><%= f.label :company_name %>
+<%= f.text_field :company_name, :class => :text %></p>
+</div>
+
+<p><%= f.label :document_number, (@registration.person_type=='F') ? t('person_document_number') : t('organization_document_number'), :id => 'document_number_label' %>
+<%= f.text_field :document_number, :class => :text %></p>
+</fieldset>
+
+<h2><%= t('choices') %></h2>
+
+<% if action_name == 'new'%>
+<p class="info">
+  O pagamento será feito via PagSeguro. Os valores dos cursos são para pagamento à vista por meio de transferência bancária ou boleto. Você pode parcelar <strong>em até 6 vezes no cartão de crédito</strong> com acréscimo de 7,08% equivalente às taxas do PagSeguro. Fazendo a inscrição para um curso, o dia de palestras é gratuito. Você também ganha uma camiseta do evento inscrevendo-se em qualquer curso ou no dia de palestra!
+</p>
+<!-- INICIO CODIGO PAGSEGURO -->
+<center>
+<a href='https://pagseguro.uol.com.br' target='_blank'><img alt='Logotipos de meios de pagamento do PagSeguro' src='https://p.simg.uol.com.br/out/pagseguro/i/banners/pagamento/avista_estatico_550_70.gif' title='Este site aceita pagamentos com Bradesco, Itaú, Banco do Brasil, Banco Real, Banrisul, saldo em conta PagSeguro e boleto.' border='0'></a>
+</center>
+<!-- FINAL CODIGO PAGSEGURO -->
+<% end %>
+
+<% Course.all.each do |course| %>
+<h3><%= check_box_tag 'courses[]', course.id, choose_course(@registration, course.id), { :id => "chk_course_#{course.id}", :free => course.instructor.nil?, :price => course.price } %> 
+  <%= content_tag :label, course.name, :for => "chk_course_#{course.id}" %></h3>
+<p><strong><%= t('course_date') %></strong>: <%= course.date %>
+  <%= raw("<br/> <strong>#{t('course_instructor')}</strong>: #{course.instructor.name} (#{course.instructor.company})") if course.instructor %>
+  <br/><strong><%= t('course_price') %></strong>: <%= number_to_currency(course.price) %>
+<% end %>
+<h2>Valor Total: <span id="total"><%= number_to_currency(@registration.total) %></span></h2>
+<div class="buttons"><%= f.submit(t('save'))%>
+  <% if action_name == 'edit'%><%= t('or') %> <%= link_to t('cancel'), root_path %><% end %>
+</div>
+<% end %>
+<script type="text/javascript" charset="utf-8">
+  function check_free() {
+    $('form :checkbox[free=true]').attr('disabled', $("input:checked[free=false]").length > 0)
+  }
+  function update_price() {
+    var total = 0.0
+    $("input:checked").each(function() {
+      if (!$(this).attr('disabled'))
+        total += parseFloat($(this).attr('price'))
+    })
+    $('#total').html(number_to_currency(total.toFixed(2), { unit: "R$ ", separator: ",", delimiter: "." }))
+  }
+  function check_person_type() {
+    var company_name_div = $('#company_name_div')
+    if ($('form #registration_person_type_f').attr('checked')) {
+      company_name_div.hide('fast')
+      $('#registration_company_name').val('')
+      $('#document_number_label').html('<%= t('person_document_number') %>')
+    } else {
+      company_name_div.show('fast')
+      $('#document_number_label').html('<%= t('organization_document_number') %>')
+    }
+  }
+  $(document).ready(function () {
+    check_free()
+    check_person_type()
+    $('form :checkbox').click(function() {
+      check_free()
+      update_price()
+    })
+  });
+</script>

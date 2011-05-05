@@ -36,6 +36,24 @@ form p label {
   margin: 12px 0px 6px 0px;
 }
 
+label.clear {
+  display: inline;
+}
+
+fieldset {
+  padding: 10px;
+}
+
+.success {
+  position: absolute;
+  text-align: center;
+  top: 0; left: 0;
+  width: 100%;
+  padding: 3px;
+  color: #4F8A10;
+  background-color: #DFF2BF;
+}
+
 .text, .text {
   width: 300px;
 }

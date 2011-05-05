@@ -1,5 +1,6 @@
 class RegistrationsController < ApplicationController
-  before_filter :authenticate, :only => :index
+  before_filter :authenticate, :only => [:index, :edit, :update, :destroy]
+  before_filter :find_registration, :only => [:show, :edit, :update, :destroy]
 
   def authenticate
     unless session[:instructor]
@@ -8,11 +9,25 @@ class RegistrationsController < ApplicationController
   end
 
   def index
-    instructor = (session[:instructor] > 0) ? session[:instructor] : nil
-    if instructor
-      @registrations = Registration.joins(:courses => [:course]).where('courses.instructor_id' => instructor, :cancelled => false).order('updated_at DESC').group(:registration_id)
+    or_where = []
+    and_where = ['1=1']
+    if params[:commit]
+      and_where << "registration_courses.course_id=#{params[:course]}" unless params[:course].blank?
+      and_where << "registrations.name LIKE '%#{params[:text]}%' OR registrations.email LIKE '%#{params[:text]}%'" unless params[:text].blank?
+      or_where << "payed=1" if params[:show_payed]
+      or_where << "(payed=0 AND cancelled=0)" if !params[:show_not_payed].nil? && params[:cancelled].nil?
+      or_where << "(payed=0 AND cancelled=1)" if !params[:show_not_payed].nil? && !params[:cancelled].nil?
+    end
+    
+    if or_where.empty?
+      or_where << "payed=1 OR (payed=0 AND cancelled=0)"
+    end
+    logger.debug and_where
+    logger.debug or_where
+    if admin?
+      @registrations = Registration.joins(:courses => [:course]).where("#{and_where.join(' AND ')} AND (#{or_where.join(' OR ')})").order('registrations.created_at DESC').group(:registration_id)
     else
-      @registrations = Registration.joins(:courses => [:course]).order('updated_at DESC').group(:registration_id)
+      @registrations = Registration.joins(:courses => [:course]).where('courses.instructor_id' => session[:instructor], :cancelled => false).where("#{and_where.join(' AND ')} AND (#{or_where.join(' OR ')})").order('registrations.created_at DESC').group(:registration_id)
     end
   end
 
@@ -31,9 +46,22 @@ class RegistrationsController < ApplicationController
       render :new
     end
   end
-  
+
+  def update
+    respond_to do |f|
+      if @registration.update_attributes(params[:registration])
+        flash[:success] = t('saved')
+        f.json { render :json => :ok }
+        f.html { redirect_to root_path }
+      else
+        logger.warn @registration.errors.inspect
+        f.json { render :json => @registration.errors }
+        f.html { render :edit }
+      end
+    end
+  end
+
   def show
-    @registration = Registration.find(params[:id])
     if params[:token] != get_token(@registration) 
       render :file => "public/422.html", :status => :unauthorized
       return
@@ -62,6 +90,15 @@ class RegistrationsController < ApplicationController
     end
   end
   
+  def destroy
+    @registration.cancel
+    render :json => :ok
+  end
+  
+  def find_registration
+    @registration = Registration.find(params[:id])
+  end
+
   skip_before_filter :verify_authenticity_token, :only => :pay
 
   def pay 
