@@ -77,7 +77,7 @@
   }
   function update_price() {
     var total = 0.0
-    $("input:checked").each(function() {
+    $('[name="courses[]"]:checked').each(function() {
       if (!$(this).attr('disabled'))
         total += parseFloat($(this).attr('price'))
     })
