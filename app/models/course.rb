@@ -7,6 +7,8 @@ class Course < ActiveRecord::Base
   end
   
   def pagseguro_price
-    (self.price >= 300.0) ? (self.price * 1.0708) : self.price
+    self.price
+    # desabilitei parcelamento sem acréscimo @sauloarruda
+    # (self.price >= 300.0) ? (self.price * 1.0708) : self.price
   end
 end
