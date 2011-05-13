@@ -7,6 +7,7 @@ class Registration < ActiveRecord::Base
   attr_accessor :person_type
 
   after_create :check_duplication, 'RegistrationMailer.send_new(self).deliver'
+  after_save :send_payed_email
   after_validation :check_payed
   
   def person_type
@@ -14,11 +15,14 @@ class Registration < ActiveRecord::Base
   end
 
   def pay
-    self.payed = true
+    self.status = 1
     self.cancelled = false
     save!
-    RegistrationMailer.send_pay(self).deliver
     check_duplication
+  end
+  
+  def payed
+    self.status > 0
   end
   
   def total
@@ -44,8 +48,12 @@ class Registration < ActiveRecord::Base
   end
 
   private
+    def send_payed_email
+      RegistrationMailer.send_pay(self).deliver if self.status > 0
+    end
+  
     def check_duplication
-      duplications = Registration.where(:email => self.email, :cancelled => false, :payed => false).order(:created_at)
+      duplications = Registration.where(:email => self.email, :cancelled => false, :status => 0).order(:created_at)
       duplications.each do |duplication|
         duplication.cancel if duplication.id != self.id
       end

@@ -127,3 +127,19 @@ form p input, form p select, .field_with_errors input, .field_with_errors select
   background-color: #F0F0F0;
   color: #999;
 }
+
+.status_0 {
+  background-color: #FFFFAA;
+}
+
+.status_1 {
+  background-color: #CCFFCC;
+}
+
+.status_2 {
+  background-color: #CCFFFF;
+}
+
+.status_3 {
+  background-color: #FFDDFF;
+}

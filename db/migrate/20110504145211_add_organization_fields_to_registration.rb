@@ -5,7 +5,7 @@ class AddOrganizationFieldsToRegistration < ActiveRecord::Migration
   end
 
   def self.down
-    remove_column(:registrations, :company_name, :string)
-    remove_column(:registrations, :document_number, :string)
+    remove_column(:registrations, :company_name)
+    remove_column(:registrations, :document_number)
   end
 end

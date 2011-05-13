@@ -6,8 +6,12 @@
     <%= text_field_tag :text, params[:text], :class => :text %></p>
     <% if admin? %><p><label class="clear" for="course"><%=t('courses')%></label> <%= select_tag :course, options_for_select(courses_options, params[:course]), :class => :text%></p><% end %>
     <p>
-      <%= check_box_tag :show_payed, true, !params[:show_payed].nil? || !params[:commit], :value => true %> <label class="clear" for="show_payed"><%= t('show_payed') %></label>
-      <%= check_box_tag :show_not_payed, true, !params[:show_not_payed].nil? || !params[:commit], :value => true %> <label class="clear" for="show_not_payed"><%= t('show_not_payed') %></label>
+      <%= label nil, t('registrations.status'), :class => :clear %>:<% status_options.each do |option| %>
+        <%= check_box_tag "status[]", option[1], is_status_checked(option[1], params), :id => "status_#{option[1]}"%> 
+        <label class="clear <%= "status_#{option[1]}" %>" for="<%= "status_#{option[1]}" %>"><%= t("status_#{option[1]}") %></label>
+      <% end %>
+    </p>
+    <p>
       <% if admin? %><%= check_box_tag :cancelled, true, !params[:cancelled].nil? %> <label class="clear" for="cancelled"><%= t('show_cancelled') %></label><% end %>
     </p>
     <p><%= submit_tag t('filter')%></p>
@@ -25,11 +29,11 @@
     <th><%= t('registrations.experience')%></th>
     <th><%= t('registrations.website')%> / <%= t('registrations.twitter')%></th>
     <th><%= t('registrations.price')%></th>
-    <th><%= t('registrations.payed')%></th>
+    <th><%= t('registrations.status')%></th>
     <%= content_tag :th if admin?%>
   </tr>
 <% @registrations.each do |registration| -%>
-  <tr<%= raw(' class="cancelled"') if registration.cancelled%>>
+  <tr class="<%= "status_#{registration.status}" %><%= raw(' cancelled') if registration.cancelled%>">
     <td><%= registration.id %></td>
     <td nowrap="nowap"><%= l registration.created_at, :format => :short %></td>
     <td><%= registration.name %><br/> &lt;<%= registration.email %>&gt;
@@ -42,10 +46,10 @@
     <td><%= link_to registration.website.truncate(20), registration.website unless registration.website.blank? %>
       <%= raw("<br/> @<a href=\"http://twitter.com/#{registration.twitter}\" target=\"blank\">#{registration.twitter}</a>") unless registration.twitter.blank? %></td>
     <td><%= number_to_currency(registration.total) %></td>
-    <td><%= registration.payed ? t('sim') : t('nao') unless admin? %>
+    <td><%= status(registration) unless admin? %>
       <% if admin? %>
         <%= form_for registration do |f| %>
-        <% f.select :payed, payed_options %>
+        <% f.select :status, status_options %>
         <% end %>
       <% end %>
       </td>

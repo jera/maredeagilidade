@@ -33,11 +33,18 @@ module RegistrationHelper
     ]
   end
   
-  def payed_options
-    [
-      [t('sim'), true],
-      [t('nao'), false]
-    ]
+  def is_status_checked(status, params)
+    if params['commit'].nil?
+      true
+    else
+      !params["status"].index(status.to_s).nil?
+    end
+  end
+  
+  def status_options
+    options = []
+    0.upto(3) {|n| options << [ t("status_#{n}"), n ]}
+    options
   end
 
   def choose_course(registration, course_id)

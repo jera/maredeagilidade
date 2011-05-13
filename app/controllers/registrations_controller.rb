@@ -12,15 +12,25 @@ class RegistrationsController < ApplicationController
     or_where = []
     and_where = ['1=1']
     if params[:commit]
+      # courses
       and_where << "registration_courses.course_id=#{params[:course]}" unless params[:course].blank?
+      
+      # name
       and_where << "registrations.name LIKE '%#{params[:text]}%' OR registrations.email LIKE '%#{params[:text]}%'" unless params[:text].blank?
-      or_where << "payed=1" if params[:show_payed]
-      or_where << "(payed=0 AND cancelled=0)" if !params[:show_not_payed].nil? && params[:cancelled].nil?
-      or_where << "(payed=0 AND cancelled=1)" if !params[:show_not_payed].nil? && !params[:cancelled].nil?
+      
+      # status
+      params[:status].each do |status|
+        or_where << "(status=#{status})"
+      end
+      
+      # cancelled
+      and_where << "cancelled=0" if params[:cancelled].nil?
+      or_where << "(status=0 AND cancelled=1)" if !params[:cancelled].nil?
     end
     
+    
     if or_where.empty?
-      or_where << "payed=1 OR (payed=0 AND cancelled=0)"
+      or_where << "status>0 OR (status=0 AND cancelled=0)"
     end
     logger.debug and_where
     logger.debug or_where

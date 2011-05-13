@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110504145211) do
+ActiveRecord::Schema.define(:version => 20110513195141) do
 
   create_table "courses", :force => true do |t|
     t.integer  "instructor_id"
@@ -46,12 +46,12 @@ ActiveRecord::Schema.define(:version => 20110504145211) do
     t.string   "phone1",                                          :null => false
     t.string   "phone2"
     t.string   "tshirt_size",     :limit => 2,                    :null => false
-    t.boolean  "payed",                        :default => false, :null => false
     t.boolean  "cancelled",                    :default => false, :null => false
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "company_name"
     t.string   "document_number"
+    t.integer  "status",                       :default => 0
   end
 
 end
