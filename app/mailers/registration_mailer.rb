@@ -19,7 +19,8 @@ class RegistrationMailer < ActionMailer::Base
     def configure(registration, subject = nil)
       @registration = registration
       options = { :to => "#{registration.name} <#{registration.email}>" }
-      options.merge({ :subject => subject }) if subject
+      options[:subject] = subject if subject
+      logger.debug options.inspect
       mail options
     end
 end
