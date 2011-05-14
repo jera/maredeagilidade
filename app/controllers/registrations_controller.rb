@@ -17,7 +17,7 @@ class RegistrationsController < ApplicationController
   def send_email
     render :status => :forbidden and return unless admin? 
     @registrations.each do |registration|
-      RegistrationMailer.send_custom(registration, params[:email_text]).deliver
+      RegistrationMailer.send_custom(registration, params[:email_subject], params[:email_text]).deliver
     end
     flash[:success] = t('sended', :count => @registrations.size)
     render :action => :index

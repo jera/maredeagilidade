@@ -9,15 +9,17 @@ class RegistrationMailer < ActionMailer::Base
     configure(registration)
   end
 
-  def send_custom(registration, message)
+  def send_custom(registration, subject, message)
     @message = message
-    configure(registration)
+    configure(registration, subject)
   end
 
   
   private 
-    def configure(registration)
+    def configure(registration, subject = nil)
       @registration = registration
-      mail :to => "#{registration.name} <#{registration.email}>"
+      options = { :to => "#{registration.name} <#{registration.email}>" }
+      options = { :subject => subject } if subject
+      mail options
     end
 end

@@ -19,6 +19,10 @@
   <% if admin? %>
   <div id="email_div" style="display:none">
     <p>
+      <%= label :email_subject, t('email_subject')%>
+      <%= text_field_tag :email_subject, '', :class => :text %>
+    </p>
+    <p>
       <%= label :email_text, t('email_text')%>
       <%= text_area_tag :email_text, '', :rows => 10, :cols => 80, :class => 'pre' %>
     </p>

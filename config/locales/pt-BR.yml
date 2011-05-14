@@ -60,6 +60,7 @@
   status_2: depósito
   status_3: cortesia
   send_email: Enviar email
+  email_subject: Assunto
   email_text: Texto do email
   send: Enviar
   sended: "Emails enviados para %{count} participante(s)!"
