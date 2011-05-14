@@ -1,6 +1,6 @@
 <%= content_tag :div, flash[:success], :class => 'success' if flash[:success]%>
 <h1><%= t('instructor_registrations')%></h1>
-<%= form_for :filter, :url => filter_registrations_path do %>
+<%= form_for :filter, :url => filter_registrations_path, :html => { :onsubmit => 'return confirm_submit(this)'} do %>
 <div id="filter">
     <p><label class="clear" for="cancelled"><%= t('text') %></label>
     <%= text_field_tag :text, params[:text], :class => :text %></p>
@@ -121,4 +121,10 @@
       }
     })
   });
+function confirm_submit(form) {
+  if (form.action.match('<%= send_email_registrations_path %>$') != null && !confirm('<%= t('are-you-sure') %>')) { 
+    return false 
+  }
+  return true
+}
 </script>
