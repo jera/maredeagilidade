@@ -150,3 +150,7 @@ form p input, form p select, .field_with_errors input, .field_with_errors select
   padding: 2px;
   margin: 0px 5px;
 }
+
+.pre {
+  font-family: courier;
+}

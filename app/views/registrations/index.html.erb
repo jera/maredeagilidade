@@ -1,7 +1,7 @@
 <%= content_tag :div, flash[:success], :class => 'success' if flash[:success]%>
 <h1><%= t('instructor_registrations')%></h1>
+<%= form_for :filter, :url => filter_registrations_path do %>
 <div id="filter">
-  <%= form_for :filter, :html => { :method => :get } do %>
     <p><label class="clear" for="cancelled"><%= t('text') %></label>
     <%= text_field_tag :text, params[:text], :class => :text %></p>
     <% if admin? %><p><label class="clear" for="course"><%=t('courses')%></label> <%= select_tag :course, options_for_select(courses_options, params[:course]), :class => :text%></p><% end %>
@@ -14,9 +14,18 @@
     <p>
       <% if admin? %><%= check_box_tag :cancelled, true, !params[:cancelled].nil? %> <label class="clear" for="cancelled"><%= t('show_cancelled') %></label><% end %>
     </p>
-    <p><%= submit_tag t('filter')%></p>
-  <% end %>
+    <p><%= submit_tag t('filter')%> <%= link_to t('send_email'), 'javascript:;', :onclick => '$("#email_div").show();return false' if admin? %></p>
 </div>
+  <% if admin? %>
+  <div id="email_div" style="display:none">
+    <p>
+      <%= label :email_text, t('email_text')%>
+      <%= text_area_tag :email_text, '', :rows => 10, :cols => 80, :class => 'pre' %>
+    </p>
+    <p><%= submit_tag t('send'), :onclick => "this.form.action='#{send_email_registrations_path}'"%></p>
+  </div>
+  <% end %>
+<% end # form %>
 <p align="center"><%= @registrations.count.size %> <%= t('found')%></p>
 <table class="table">
   <tr>
@@ -46,7 +55,7 @@
     <td><%= link_to registration.website.truncate(20), registration.website unless registration.website.blank? %>
       <%= raw("<br/> @<a href=\"http://twitter.com/#{registration.twitter}\" target=\"blank\">#{registration.twitter}</a>") unless registration.twitter.blank? %></td>
     <td><%= number_to_currency(registration.total) %></td>
-    <td><%= status(registration) unless admin? %>
+    <td><%= registration.status unless admin? %>
       <% if admin? %>
         <%= form_for registration do |f| %>
         <% f.select :status, status_options %>

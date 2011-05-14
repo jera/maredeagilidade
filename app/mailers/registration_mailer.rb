@@ -8,6 +8,12 @@ class RegistrationMailer < ActionMailer::Base
   def send_pay(registration)
     configure(registration)
   end
+
+  def send_custom(registration, message)
+    @message = message
+    configure(registration)
+  end
+
   
   private 
     def configure(registration)

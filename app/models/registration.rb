@@ -47,6 +47,36 @@ class Registration < ActiveRecord::Base
     true
   end
 
+  def self.search(params, admin)
+    or_where = []
+    and_where = ['1=1']
+    if params[:commit]
+      # courses
+      and_where << "registration_courses.course_id=#{params[:course]}" unless params[:course].blank?
+      
+      # name
+      and_where << "registrations.name LIKE '%#{params[:text]}%' OR registrations.email LIKE '%#{params[:text]}%'" unless params[:text].blank?
+      
+      # status
+      params[:status].each do |status|
+        or_where << "(status=#{status})"
+      end
+      
+      # cancelled
+      and_where << "cancelled=0" if params[:cancelled].nil?
+      or_where << "(status=0 AND cancelled=1)" if !params[:cancelled].nil?
+    end
+    if or_where.empty?
+      or_where << "status>0 OR (status=0 AND cancelled=0)"
+    end
+
+    if admin
+      Registration.joins(:courses => [:course]).where("#{and_where.join(' AND ')} AND (#{or_where.join(' OR ')})").order('registrations.created_at DESC').group(:registration_id)
+    else
+      Registration.joins(:courses => [:course]).where('courses.instructor_id' => params[:instructor], :cancelled => false).where("#{and_where.join(' AND ')} AND (#{or_where.join(' OR ')})").order('registrations.created_at DESC').group(:registration_id)
+    end
+  end
+
   private
     def send_payed_email
       RegistrationMailer.send_pay(self).deliver if self.status > 0

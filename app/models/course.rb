@@ -6,6 +6,14 @@ class Course < ActiveRecord::Base
     self.instructor.nil?
   end
   
+  def can_register
+    if self.registration_end.nil?
+      true
+    else
+      self.registration_end < Date.today
+    end
+  end
+  
   def pagseguro_price
     self.price
     # desabilitei parcelamento sem acréscimo @sauloarruda

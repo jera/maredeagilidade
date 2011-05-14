@@ -1,6 +1,8 @@
 class RegistrationsController < ApplicationController
   before_filter :authenticate, :only => [:index, :edit, :update, :destroy]
   before_filter :find_registration, :only => [:show, :edit, :update, :destroy]
+  before_filter :filter_registrations, :only => [:index, :filter, :send_email]
+  helper :all
 
   def authenticate
     unless session[:instructor]
@@ -8,37 +10,21 @@ class RegistrationsController < ApplicationController
     end
   end
 
-  def index
-    or_where = []
-    and_where = ['1=1']
-    if params[:commit]
-      # courses
-      and_where << "registration_courses.course_id=#{params[:course]}" unless params[:course].blank?
-      
-      # name
-      and_where << "registrations.name LIKE '%#{params[:text]}%' OR registrations.email LIKE '%#{params[:text]}%'" unless params[:text].blank?
-      
-      # status
-      params[:status].each do |status|
-        or_where << "(status=#{status})"
-      end
-      
-      # cancelled
-      and_where << "cancelled=0" if params[:cancelled].nil?
-      or_where << "(status=0 AND cancelled=1)" if !params[:cancelled].nil?
+  def filter
+    render :action => :index
+  end
+  
+  def send_email
+    render :status => :forbidden and return unless admin? 
+    @registrations.each do |registration|
+      RegistrationMailer.send_custom(registration, params[:email_text]).deliver
     end
-    
-    
-    if or_where.empty?
-      or_where << "status>0 OR (status=0 AND cancelled=0)"
-    end
-    logger.debug and_where
-    logger.debug or_where
-    if admin?
-      @registrations = Registration.joins(:courses => [:course]).where("#{and_where.join(' AND ')} AND (#{or_where.join(' OR ')})").order('registrations.created_at DESC').group(:registration_id)
-    else
-      @registrations = Registration.joins(:courses => [:course]).where('courses.instructor_id' => session[:instructor], :cancelled => false).where("#{and_where.join(' AND ')} AND (#{or_where.join(' OR ')})").order('registrations.created_at DESC').group(:registration_id)
-    end
+    flash[:success] = t('sended', :count => @registrations.size)
+    render :action => :index
+  end
+
+  def filter_registrations
+    @registrations = Registration.search(params.merge({:instructor => session[:instructor]}), admin?)
   end
 
   def new
