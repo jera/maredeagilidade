@@ -58,4 +58,17 @@ module RegistrationHelper
     courses.collect {|c| c.course.name }.join(', ')
   end
 
+  def registration_end_notification(course)
+    return '' if course.registration_end.nil? 
+    message = nil
+    if course.registration_end > Date.today
+      message = t('registration.last_days', :date => l(course.registration_end, :format => :short)) if course.registration_end-3.days < Date.today
+    elsif course.registration_end == Date.today
+      message = t('registration.last_day')
+    elsif course.registration_end < Date.today
+      message = t('registration.end')
+    end
+    content_tag :label, message, :class => 'registration_end' unless message.nil?
+  end
+
 end

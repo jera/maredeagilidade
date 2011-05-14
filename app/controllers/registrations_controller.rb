@@ -48,6 +48,8 @@ class RegistrationsController < ApplicationController
   def create
     @registration = Registration.new(params[:registration])
     params[:courses].each do |course_id|
+      course = Course.find(course_id)
+      raise t('registration.end') if course.registration_end < Date.today
       @registration.courses.build(:course_id => course_id)
     end if params[:courses]
     if @registration.save

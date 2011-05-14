@@ -39,6 +39,10 @@
   organization: Empresa
   person_document_number: CPF
   organization_document_number: CNPJ
+  registration:
+    last_days: "somente até %{date}"
+    last_day: ÚLTIMO DIA!
+    end: "inscrições encerradas!"
   registrations:
     code: Cód.
     date: Data

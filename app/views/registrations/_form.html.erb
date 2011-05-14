@@ -60,8 +60,12 @@
 <% end %>
 
 <% Course.all.each do |course| %>
-<h3><%= check_box_tag 'courses[]', course.id, choose_course(@registration, course.id), { :id => "chk_course_#{course.id}", :free => course.instructor.nil?, :price => course.price } %> 
-  <%= content_tag :label, course.name, :for => "chk_course_#{course.id}" %></h3>
+<h3>
+  <%= check_box_tag 'courses[]', course.id, choose_course(@registration, course.id), { :id => "chk_course_#{course.id}", :free => course.instructor.nil?, :price => course.price, :disabled => course.registration_end < Date.today } %> 
+  <%= content_tag :label, course.name, :for => "chk_course_#{course.id}" %>
+  <%= registration_end_notification(course) %>
+  <%= %>
+</h3>
 <p><strong><%= t('course_date') %></strong>: <%= course.date %>
   <%= raw("<br/> <strong>#{t('course_instructor')}</strong>: #{course.instructor.name} (#{course.instructor.company})") if course.instructor %>
   <br/><strong><%= t('course_price') %></strong>: <%= number_to_currency(course.price) %>

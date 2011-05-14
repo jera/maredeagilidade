@@ -143,3 +143,10 @@ form p input, form p select, .field_with_errors input, .field_with_errors select
 .status_3 {
   background-color: #FFDDFF;
 }
+
+.registration_end {
+  background-color: #FFAAFF;
+  border: 1px solid #FF33FF;
+  padding: 2px;
+  margin: 0px 5px;
+}
