@@ -35,7 +35,7 @@
 <% @registrations.each do |registration| -%>
   <tr class="<%= "status_#{registration.status}" %><%= raw(' cancelled') if registration.cancelled%>">
     <td><%= registration.id %></td>
-    <td nowrap="nowap"><%= l registration.created_at, :format => :short %></td>
+    <td nowrap="nowap"><%= l registration.created_at, :format => :short %><br/><%= l registration.updated_at, :format => :short %></td>
     <td><%= registration.name %><br/> &lt;<%= registration.email %>&gt;
       </td>
     <td><%= content_tag :em, registration.company_name if registration.person_type == 'J' %> <%= registration.document_number %></td>
