@@ -58,13 +58,11 @@
 </center>
 <!-- FINAL CODIGO PAGSEGURO -->
 <% end %>
-
 <% Course.all.each do |course| %>
 <h3>
-  <%= check_box_tag 'courses[]', course.id, choose_course(@registration, course.id), { :id => "chk_course_#{course.id}", :free => course.instructor.nil?, :price => course.price, :disabled => !admin? && course.can_register } %> 
+  <%= check_box_tag 'courses[]', course.id, choose_course(@registration, course.id), { :id => "chk_course_#{course.id}", :free => course.instructor.nil?, :price => course.price, :disabled => (admin?) ? false : !course.can_register } %> 
   <%= content_tag :label, course.name, :for => "chk_course_#{course.id}" %>
   <%= registration_end_notification(course) %>
-  <%= %>
 </h3>
 <p><strong><%= t('course_date') %></strong>: <%= course.date %>
   <%= raw("<br/> <strong>#{t('course_instructor')}</strong>: #{course.instructor.name} (#{course.instructor.company})") if course.instructor %>
@@ -99,7 +97,8 @@
     }
   }
   $(document).ready(function () {
-    check_free()
+    if ($('form :checkbox[free=true]').attr('disabled') == null)
+      check_free()
     check_person_type()
     $('form :checkbox').click(function() {
       check_free()

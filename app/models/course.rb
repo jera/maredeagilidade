@@ -10,7 +10,7 @@ class Course < ActiveRecord::Base
     if self.registration_end.nil?
       true
     else
-      self.registration_end < Date.today
+      self.registration_end >= Date.today
     end
   end
   
