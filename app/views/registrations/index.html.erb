@@ -30,7 +30,7 @@
   </div>
   <% end %>
 <% end # form %>
-<p align="center"><%= @registrations.count.size %> <%= t('found')%></p>
+<p align="center"><%= @registrations.count.size %> <%= t('found')%> - <span id="checkin_count"><%= Registration.checked_in.size %></span> <%= t('check-ins')%></p>
 <table class="table">
   <tr>
     <th><%= t('registrations.code')%></th>
@@ -92,6 +92,9 @@
         } else {
           var row = form.closest('tr')
           row.animate({ opacity: 0.25 }, 200).animate({ opacity: 1 }, 200)
+          var checkins = parseInt($('#checkin_count').text())
+          checkins = (checkbox.attr('checked')) ? checkins+1 : checkins-1
+          $('#checkin_count').text(checkins)
         }
       })
     })
