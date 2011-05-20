@@ -7,7 +7,7 @@ class Registration < ActiveRecord::Base
   attr_accessor :person_type
 
   after_create :check_duplication, 'RegistrationMailer.send_new(self).deliver'
-  after_save :send_payed_email
+  after_save :send_payed_email, :unless => :checkin
   after_validation :check_payed
   
   def person_type

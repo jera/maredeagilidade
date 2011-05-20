@@ -5,6 +5,7 @@ Maredeagilidade::Application.routes.draw do
     get 'pay', :on => :collection
     post 'send_email', :on => :collection
     post 'filter', :on => :collection
+    get 'checkin', :on => :member
   end
   
   match 'login' => 'login#index', :as => :login

@@ -1,6 +1,6 @@
 class RegistrationsController < ApplicationController
   before_filter :authenticate, :only => [:index, :edit, :update, :destroy]
-  before_filter :find_registration, :only => [:show, :edit, :update, :destroy]
+  before_filter :find_registration, :only => [:show, :edit, :update, :destroy, :checkin]
   before_filter :filter_registrations, :only => [:index, :filter, :send_email]
   helper :all
 
@@ -95,6 +95,14 @@ class RegistrationsController < ApplicationController
   
   def find_registration
     @registration = Registration.find(params[:id])
+  end
+  
+  def checkin 
+    if @registration.update_attribute(:checkin, (params[:registration][:checkin] == '1') ? Time.now : nil)
+      render :text => 'ok'
+    else
+      render :json => @registration.errors
+    end
   end
 
   skip_before_filter :verify_authenticity_token, :only => :pay
