@@ -6,6 +6,7 @@ Maredeagilidade::Application.routes.draw do
     post 'send_email', :on => :collection
     post 'filter', :on => :collection
     get 'checkin', :on => :member
+    get 'raffle', :on => :collection
   end
   
   match 'login' => 'login#index', :as => :login

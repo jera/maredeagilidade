@@ -1,0 +1,3 @@
+<h1><%= t('and-the-winner-is')%></h1>
+<h2><%= @raffle.nil? ? t('nobody') : @raffle.name %></h2>
+<button onclick="window.location.href=window.location.href"><%= t('more-one')%></button> | <%= link_to t('back'), registrations_path %>

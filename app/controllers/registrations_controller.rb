@@ -1,5 +1,5 @@
 class RegistrationsController < ApplicationController
-  before_filter :authenticate, :only => [:index, :edit, :update, :destroy]
+  before_filter :authenticate, :only => [:index, :edit, :update, :destroy, :raffle, :checkin]
   before_filter :find_registration, :only => [:show, :edit, :update, :destroy, :checkin]
   before_filter :filter_registrations, :only => [:index, :filter, :send_email]
   helper :all
@@ -35,11 +35,19 @@ class RegistrationsController < ApplicationController
     @registration = Registration.new(params[:registration])
     params[:courses].each do |course_id|
       course = Course.find(course_id)
-      raise t('registration.end') if course.registration_end < Date.today
+      raise t('registration.end') if !admin? && course.registration_end < Date.today
       @registration.courses.build(:course_id => course_id)
     end if params[:courses]
+    if admin?
+      @registration.status = 4 
+      @registration.checkin = Time.now
+    end
     if @registration.save
-      redirect_to registration_path(@registration) + '?token=' + get_token(@registration)
+      if admin?
+        redirect_to registrations_path, :success => 'success'
+      else
+        redirect_to registration_path(@registration) + '?token=' + get_token(@registration) 
+      end
     else
       render :new
     end
@@ -102,6 +110,18 @@ class RegistrationsController < ApplicationController
       render :text => 'ok'
     else
       render :json => @registration.errors
+    end
+  end
+
+  def raffle
+    render :file => "public/422.html", :status => :unauthorized unless admin?
+    total = Registration.for_raffle.count
+    if total > 0
+      winner = rand(total)
+      @raffle = Registration.for_raffle.offset(winner).first
+      @raffle.update_attribute(:winning, true)
+    else
+      @raffle = nil
     end
   end
 

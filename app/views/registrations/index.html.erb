@@ -14,7 +14,13 @@
     <p>
       <% if admin? %><%= check_box_tag :cancelled, true, !params[:cancelled].nil? %> <label class="clear" for="cancelled"><%= t('show_cancelled') %></label><% end %>
     </p>
-    <p><%= submit_tag t('filter')%> <%= link_to t('send_email'), 'javascript:;', :onclick => '$("#email_div").show();return false' if admin? %></p>
+    <p><%= submit_tag t('filter')%> 
+    <% if admin? %>
+      | <%= link_to t('send_email'), 'javascript:;', :onclick => '$("#email_div").show();return false' %>
+      | <%= link_to t('raffle'), raffle_registrations_path %>
+      | <%= link_to t('new-registration'), new_registration_path %>
+    <% end %>
+    </p>
 </div>
   <% if admin? %>
   <div id="email_div" style="display:none">
@@ -49,9 +55,9 @@
   <tr class="<%= "status_#{registration.status}" %><%= raw(' cancelled') if registration.cancelled%>">
     <td>
       <%= form_for registration, nil, :url => { :action => :checkin, :id => registration }, :html => { :method => :delete } do |f| %>
-        <%= f.check_box :checkin, :class => 'checkin'%>
-        <%= registration.id %>
-      <% end %>
+        <%= f.check_box :checkin, :class => 'checkin', :title => t('click-to-checkin')%>
+      <% end if registration.status > 0 && admin? %>
+      <%= registration.id %>
     </td>
     <td nowrap="nowap"><%= l registration.created_at, :format => :short %><br/><%= l registration.updated_at, :format => :short %></td>
     <td><%= registration.name %><br/> &lt;<%= registration.email %>&gt;

@@ -7,10 +7,11 @@ class Registration < ActiveRecord::Base
   attr_accessor :person_type
 
   after_create :check_duplication, 'RegistrationMailer.send_new(self).deliver'
-  after_save :send_payed_email, :unless => :checkin
+  after_save :send_payed_email, :if => '!checkin_changed? && !winning_changed?'
   after_validation :check_payed
   
   scope :checked_in, where('checkin is not null')
+  scope :for_raffle, checked_in.where(:winning => false)
 
   def person_type
     @person_type ||= (self.company_name.nil? || self.company_name.blank?) ? 'F' : 'J'

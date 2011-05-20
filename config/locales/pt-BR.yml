@@ -9,6 +9,12 @@
   or: ou
   cancel: Cancelar
   are-you-sure: Tem certeza?
+  click-to-checkin: Clique para fazer o check-in
+  raffle: Sorteio
+  and-the-winner-is: E o sortudo da vez é...
+  nobody: Todos já ganharam! \o/
+  more-one: Mais um!
+  back: Voltar
   filter: Filtrar
   show_cancelled: Mostrar cancelados
   found: inscrições encontradas
@@ -60,6 +66,8 @@
   status_1: pagseguro
   status_2: depósito
   status_3: cortesia
+  status_4: na hora
+  new-registration: Nova inscrição
   send_email: Enviar email
   email_subject: Assunto
   email_text: Texto do email

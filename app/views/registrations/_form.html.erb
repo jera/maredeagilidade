@@ -61,7 +61,7 @@
 
 <% Course.all.each do |course| %>
 <h3>
-  <%= check_box_tag 'courses[]', course.id, choose_course(@registration, course.id), { :id => "chk_course_#{course.id}", :free => course.instructor.nil?, :price => course.price, :disabled => course.can_register } %> 
+  <%= check_box_tag 'courses[]', course.id, choose_course(@registration, course.id), { :id => "chk_course_#{course.id}", :free => course.instructor.nil?, :price => course.price, :disabled => !admin? && course.can_register } %> 
   <%= content_tag :label, course.name, :for => "chk_course_#{course.id}" %>
   <%= registration_end_notification(course) %>
   <%= %>

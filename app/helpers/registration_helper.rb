@@ -43,7 +43,7 @@ module RegistrationHelper
   
   def status_options
     options = []
-    0.upto(3) {|n| options << [ t("status_#{n}"), n ]}
+    0.upto(4) {|n| options << [ t("status_#{n}"), n ]}
     options
   end
 
