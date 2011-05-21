@@ -9,7 +9,11 @@ class RegistrationsController < ApplicationController
       redirect_to login_path
     end
   end
-
+  
+  def index
+    @order_by = 'created_at'
+  end
+  
   def filter
     render :action => :index
   end
@@ -24,7 +28,9 @@ class RegistrationsController < ApplicationController
   end
 
   def filter_registrations
-    @registrations = Registration.search(params.merge({:instructor => session[:instructor]}), admin?)
+    @order_by = 'created_at'
+    @order_by = params[:order_by] unless params[:order_by].nil?
+    @registrations = Registration.search(params.merge({:instructor => session[:instructor]}),@order_by, admin?)
   end
 
   def new

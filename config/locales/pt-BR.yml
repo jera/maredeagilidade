@@ -15,6 +15,7 @@
   nobody: Todos já ganharam! \o/
   more-one: Mais um!
   back: Voltar
+  order-by:  Ordenar por
   filter: Filtrar
   show_cancelled: Mostrar cancelados
   found: inscrições encontradas
@@ -62,6 +63,9 @@
     price: Valor
     status: Status
     cpf_cnpj: CPF ou CNPJ
+    order-by:
+      created-at: Data de criação
+      name: Nome
   status_0: pendente
   status_1: pagseguro
   status_2: depósito

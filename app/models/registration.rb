@@ -50,7 +50,7 @@ class Registration < ActiveRecord::Base
     true
   end
 
-  def self.search(params, admin)
+  def self.search(params, order_by,admin)
     or_where = []
     and_where = ['1=1']
     if params[:commit]
@@ -74,7 +74,7 @@ class Registration < ActiveRecord::Base
     end
 
     if admin
-      Registration.joins(:courses => [:course]).where("#{and_where.join(' AND ')} AND (#{or_where.join(' OR ')})").order('registrations.created_at DESC').group(:registration_id)
+      Registration.joins(:courses => [:course]).where("#{and_where.join(' AND ')} AND (#{or_where.join(' OR ')})").order("registrations.#{order_by}").group(:registration_id)
     else
       Registration.joins(:courses => [:course]).where('courses.instructor_id' => params[:instructor], :cancelled => false).where("#{and_where.join(' AND ')} AND (#{or_where.join(' OR ')})").order('registrations.created_at DESC').group(:registration_id)
     end

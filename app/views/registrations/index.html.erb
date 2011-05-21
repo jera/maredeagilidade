@@ -20,6 +20,11 @@
       | <%= link_to t('raffle'), raffle_registrations_path %>
       | <%= link_to t('new-registration'), new_registration_path %>
     <% end %>
+    <% if admin? %>
+      <%= label nil, t('order-by'), :class => :clear %>
+      <%= select_tag :order_by, options_for_select({t('registrations.order-by.created-at') => 'created_at', t('registrations.order-by.name') => 'name'},@order_by), 
+      {:onchange => 'submit()' } %>
+    <% end%>
     </p>
 </div>
   <% if admin? %>
