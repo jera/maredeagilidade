@@ -13,6 +13,12 @@ class RegistrationMailer < ActionMailer::Base
     @message = message
     configure(registration, subject)
   end
+  
+  def send_certificate(registration)
+    pdf = registration.generate_certificate
+    attachments['certificado.pdf'] = pdf.render
+    configure(registration,'certificado')
+  end
 
   
   private 

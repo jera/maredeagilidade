@@ -1,5 +1,5 @@
 class RegistrationsController < ApplicationController
-  before_filter :authenticate, :only => [:index, :edit, :update, :destroy, :raffle, :checkin]
+  before_filter :authenticate, :only => [:index, :edit, :update, :destroy, :raffle, :checkin, :certificate]
   before_filter :find_registration, :only => [:show, :edit, :update, :destroy, :checkin]
   before_filter :filter_registrations, :only => [:index, :filter, :send_email]
   helper :all
@@ -10,8 +10,20 @@ class RegistrationsController < ApplicationController
     end
   end
   
+  def certificate
+    @registration = Registration.find(params[:id])
+    send_data(@registration.generate_certificate.render, :filename => "certificado.pdf", :type => "application/pdf")
+  end
+  
   def index
     @order_by = 'created_at'
+  end
+  
+  def send_all_certificates
+    registrations = Registration.checked_in
+    registrations.each do |registration|
+      RegistrationMailer.send_certificate registration
+    end
   end
   
   def filter

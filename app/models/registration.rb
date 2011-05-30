@@ -79,7 +79,16 @@ class Registration < ActiveRecord::Base
       Registration.joins(:courses => [:course]).where('courses.instructor_id' => params[:instructor], :cancelled => false).where("#{and_where.join(' AND ')} AND (#{or_where.join(' OR ')})").order('registrations.created_at DESC').group(:registration_id)
     end
   end
-
+  
+  
+  def generate_certificate
+    img = '/home/marcos/certificate.png'
+    pdf = Prawn::Document.new(:page_size => 'A4', :page_layout => :landscape, :background => img)
+    pdf.font_size = 32
+    pdf.text(self.name,:valign=> :center, :align => :center)
+    return pdf
+  end
+  
   private
     def send_payed_email
       RegistrationMailer.send_pay(self).deliver if self.status > 0

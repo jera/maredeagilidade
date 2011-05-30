@@ -7,6 +7,7 @@ Maredeagilidade::Application.routes.draw do
     post 'filter', :on => :collection
     get 'checkin', :on => :member
     get 'raffle', :on => :collection
+    get :certificate, :on => :member
   end
   
   match 'login' => 'login#index', :as => :login

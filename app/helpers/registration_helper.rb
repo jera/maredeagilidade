@@ -70,5 +70,5 @@ module RegistrationHelper
     end
     content_tag :label, message, :class => 'registration_end' unless message.nil?
   end
-
+  
 end

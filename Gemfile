@@ -4,6 +4,7 @@ gem 'rails'
 gem 'pagseguro'
 gem 'mysql2'
 gem 'sqlite3'
+gem 'prawn'
 
 group :development do
 #  gem 'ruby-debug19', :require => 'ruby-debug'
