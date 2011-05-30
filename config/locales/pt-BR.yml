@@ -18,6 +18,7 @@
   order-by:  Ordenar por
   filter: Filtrar
   show_cancelled: Mostrar cancelados
+  only_checked_in: Somente com check-in
   found: inscrições encontradas
   check-ins: check-ins feitos
   text: Buscar

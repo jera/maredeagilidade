@@ -12,7 +12,10 @@
       <% end %>
     </p>
     <p>
-      <% if admin? %><%= check_box_tag :cancelled, true, !params[:cancelled].nil? %> <label class="clear" for="cancelled"><%= t('show_cancelled') %></label><% end %>
+      <% if admin? %>
+        <%= check_box_tag :cancelled, true, !params[:cancelled].nil? %> <label class="clear" for="cancelled"><%= t('show_cancelled') %></label>
+        <%= check_box_tag :checked_in, true, !params[:checked_in].nil? %> <label class="clear" for="checked_in"><%= t('only_checked_in') %></label>
+      <% end %>
     </p>
     <p><%= submit_tag t('filter')%> 
     <% if admin? %>

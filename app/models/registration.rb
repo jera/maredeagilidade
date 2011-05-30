@@ -67,6 +67,7 @@ class Registration < ActiveRecord::Base
       
       # cancelled
       and_where << "cancelled=0" if params[:cancelled].nil?
+      and_where << "checkin is not null" unless params[:checked_in].nil?
       or_where << "(status=0 AND cancelled=1)" if !params[:cancelled].nil?
     end
     if or_where.empty?
