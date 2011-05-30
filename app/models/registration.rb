@@ -10,7 +10,7 @@ class Registration < ActiveRecord::Base
   after_save :send_payed_email, :if => '!checkin_changed? && !winning_changed?'
   after_validation :check_payed
   
-  scope :checked_in, where('checkin is not null')
+  scope :checked_in, where('checkin is not null and cancelled = false')
   scope :for_raffle, checked_in.where(:winning => false)
 
   def person_type
