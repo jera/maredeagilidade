@@ -154,14 +154,3 @@ form p input, form p select, .field_with_errors input, .field_with_errors select
 .pre {
   font-family: courier;
 }
-@media print {
-#
-certificate-name {
-  position: absolute;
-  vertical-align: middle;
-  
-}
-#certificate {
-  size: landscape;
-}
-}
