@@ -1,7 +1,6 @@
 # encoding: UTF-8
 # pt-BR translations for Ruby on Rails
 "pt-BR":
-
   new_registration: "Inscreva-se"
   edit_registration: Editar Inscrição
   your_information: Seus dados
@@ -12,8 +11,7 @@
   click-to-checkin: Clique para fazer o check-in
   certificate: Certificado
   certificate-mail-subject: Certificado Maré de Agilidade
-  certificate-mail-content: "Olá, obrigado pela participação no Maré de Agilidade Edição Pantanal. 
-Em anegit xo está o seu Certificado."
+  certificate-mail-content: Olá, obrigado pela participação no Maré de Agilidade Edição Pantanal.  Em anexo está o seu Certificado.
   send-certificates: Enviar certificados
   raffle: Sorteio
   and-the-winner-is: E o sortudo da vez é...
