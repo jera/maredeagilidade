@@ -83,7 +83,7 @@ class Registration < ActiveRecord::Base
   
   
   def generate_certificate
-    img = Rails.root.join(File.open('public/images/certificate.png'))
+    img = Rails.root.join(File.open('public/images/certificate.png')).to_s
     pdf = Prawn::Document.new(:page_size => 'A4', :page_layout => :landscape, :background => img)
     pdf.font_size = 32
     pdf.text(self.name,:valign=> :center, :align => :center)
