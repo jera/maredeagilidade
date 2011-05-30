@@ -19,11 +19,12 @@ class RegistrationsController < ApplicationController
     @order_by = 'created_at'
   end
   
-  def send_all_certificates
+  def send_certificates
     registrations = Registration.checked_in
     registrations.each do |registration|
-      RegistrationMailer.send_certificate registration
+      RegistrationMailer.send_certificate(registration).deliver
     end
+   redirect_to registrations_path
   end
   
   def filter

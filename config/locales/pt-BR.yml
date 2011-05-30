@@ -10,6 +10,10 @@
   cancel: Cancelar
   are-you-sure: Tem certeza?
   click-to-checkin: Clique para fazer o check-in
+  certificate: Certificado
+  certificate-mail-subject: Certificado Maré de Agilidade
+  certificate-mail-content: Certificado
+  send-certificates: Enviar certificados
   raffle: Sorteio
   and-the-winner-is: E o sortudo da vez é...
   nobody: Todos já ganharam! \o/

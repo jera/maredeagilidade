@@ -27,6 +27,7 @@
       <%= label nil, t('order-by'), :class => :clear %>
       <%= select_tag :order_by, options_for_select({t('registrations.order-by.created-at') => 'created_at', t('registrations.order-by.name') => 'name'},@order_by), 
       {:onchange => 'submit()' } %>
+      <%= link_to t('send-certificates'), send_certificates_registrations_path, :onclick => "return confirm('#{t('are-you-sure')}')" %>
     <% end%>
     </p>
 </div>

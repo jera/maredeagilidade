@@ -16,8 +16,8 @@ class RegistrationMailer < ActionMailer::Base
   
   def send_certificate(registration)
     pdf = registration.generate_certificate
-    attachments['certificado.pdf'] = pdf.render
-    configure(registration,'certificado')
+    attachments["#{I18n.t('certificate')}.pdf"] = pdf.render
+    configure(registration,I18n.t('certificate-mail-subject'))
   end
 
   
